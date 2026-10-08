@@ -1,4 +1,4 @@
-# Pagina Virada - API
+# Catalogo de Jogos - API
 
 API REST didatica em Node.js + Express para uso em aula de React Native.
 
@@ -22,20 +22,21 @@ O app ja vem configurado com esse endereco em `services/api.js`.
 
 | Metodo | Rota            | Descricao                                           |
 |--------|-----------------|-----------------------------------------------------|
-| GET    | /livros         | Lista todos os livros                               |
-| GET    | /livros/:id     | Retorna um livro (404 se nao existir)               |
-| GET    | /favoritos      | Lista favoritos com dados do livro embutidos        |
-| POST   | /favoritos      | Cria favorito `{ livroId, observacao }`             |
+| GET    | /jogos          | Lista todos os jogos                                |
+| GET    | /jogos/:id      | Retorna um jogo (404 se nao existir)                |
+| GET    | /favoritos      | Lista favoritos com dados do jogo embutidos         |
+| POST   | /favoritos      | Cria favorito `{ jogoId, observacao }`              |
 | PUT    | /favoritos/:id  | Atualiza observacao `{ observacao }`                |
 | DELETE | /favoritos/:id  | Remove o favorito (204 sem corpo)                   |
 
 ## Comportamentos didaticos
 
 - Delay aleatorio de 300-600ms em todas as respostas GET (simula latencia real).
-- Erro 500 em ~10% das requisicoes de escrita (POST/PUT/DELETE), para forcar
-  tratamento de erro no app.
+- Por padrao, as requisicoes de escrita (POST/PUT/DELETE) nao simulam erros.
+  Para testar o tratamento de falhas no app, ative a flag abaixo; isso retorna
+  erro 500 em ~10% dessas requisicoes.
 
-Para desligar os erros simulados, altere a flag no topo de `server.js`:
+Para desligar os erros simulados, altere a flag `SIMULAR_ERROS` em `config.js`:
 
 ```js
 const SIMULAR_ERROS = false;

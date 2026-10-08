@@ -4,39 +4,39 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const STORAGE_KEY = '@pagina_virada:tema';
 
 const temaClaro = {
-  background: '#F8F9FA',
+  background: '#F5F3FA',
   card: '#FFFFFF',
-  text: '#1A1A1A',
-  textSecondary: '#6B7280',
-  primary: '#2563EB',
+  text: '#292635',
+  textSecondary: '#777386',
+  primary: '#7655C8',
   primaryText: '#FFFFFF',
-  border: '#E5E7EB',
-  error: '#DC2626',
-  success: '#16A34A',
+  border: '#E3DFEC',
+  error: '#C94F62',
+  success: '#25866B',
   tabBar: '#FFFFFF',
-  header: '#2563EB',
-  headerText: '#FFFFFF',
+  header: '#F5F3FA',
+  headerText: '#292635',
 };
 
 const temaEscuro = {
-  background: '#0F172A',
-  card: '#1E293B',
-  text: '#F1F5F9',
-  textSecondary: '#94A3B8',
-  primary: '#3B82F6',
+  background: '#101116',
+  card: '#181A23',
+  text: '#F1F0F6',
+  textSecondary: '#9295A8',
+  primary: '#B89AFF',
   primaryText: '#FFFFFF',
-  border: '#334155',
+  border: '#292B36',
   error: '#F87171',
   success: '#4ADE80',
-  tabBar: '#1E293B',
-  header: '#1E293B',
+  tabBar: '#111219',
+  header: '#101116',
   headerText: '#F1F5F9',
 };
 
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  const [modoEscuro, setModoEscuro] = useState(false);
+  const [modoEscuro, setModoEscuro] = useState(true);
 
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY).then((valor) => {

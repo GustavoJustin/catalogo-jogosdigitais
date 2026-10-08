@@ -52,7 +52,7 @@ export default function Favoritos() {
     setFavoritos((listaAtual) =>
       listaAtual.map((favorito) =>
         favorito.id === id
-          ? { ...favoritos, observacao: atualizado.observacao }
+          ? { ...favorito, observacao: atualizado.observacao }
           : favorito
       )
     )

@@ -1,5 +1,5 @@
 // Defina como false para desligar os erros simulados durante demonstracoes
-const SIMULAR_ERROS = true;
+const SIMULAR_ERROS = false;
 
 const PORTA = 3000;
 

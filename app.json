@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "pagina-virada-aluno",
-    "slug": "pagina-virada-aluno",
+    "name": "Catalogo de Jogos Digitais",
+    "slug": "catalogo-jogos-digitais",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

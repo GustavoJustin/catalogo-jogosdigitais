@@ -1,54 +1,56 @@
 // No emulador Android, 10.0.2.2 aponta para o localhost da maquina host.
 const BASE_URL = "http://10.0.2.2:3000";
 
-export async function buscarLivros() {
+export async function buscarJogos() {
   try {
-    const response = await fetch(`${BASE_URL}/livros`)
+    const response = await fetch(`${BASE_URL}/jogos`)
 
     if (!response.ok) {
-      throw new Error(`Erro ${response.status}: Falha ao buscar livros`)
+      throw new Error(`Erro ${response.status}: Falha ao buscar jogos`)
     }
 
     return response.json()
 
   } catch (e) {
-    console.error('buscarLivros:', e.message)
+    console.error('buscarJogos:', e.message)
     throw e
   }
 }
 
-export async function buscarLivroPorId(id) {
-
+export async function buscarJogoPorId(id) {
   try {
-    const response = await fetch(`${BASE_URL}/livros/${id}`)
+    const response = await fetch(`${BASE_URL}/jogos/${id}`)
 
     if (!response.ok) {
-      throw new Error(`Erro ${response.status}: livro não encontrado`)
+      throw new Error(`Erro ${response.status}: jogo não encontrado`)
     }
 
     return response.json()
 
   } catch (e) {
-    console.error('buscarLivroPorId:', e.message)
+    console.error('buscarJogoPorId:', e.message)
     throw e
   }
 }
 
-export async function adicionarFavorito(livroId, observacao) {
+export async function adicionarFavorito(jogoId, observacao) {
   try {
     const response = await fetch(`${BASE_URL}/favoritos`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({livroId, observacao})
+      body: JSON.stringify({jogoId, observacao})
     })
 
     if(!response.ok){
       const corpo = await response.json().catch(() => ({}))
       const erro = new Error(corpo.erro ?? `Erro ${response.status}: falha ao adicionar favorito`)
+      erro.status = response.status
+      throw erro
     }
     return response.json()
   } catch (e) {
-    console.error("AdicionarFavorito:", erro.message)
+    console.error("adicionarFavorito:", e.message)
+    throw e
   }
 }
 
@@ -74,7 +76,10 @@ export async function editarFavorito(id, observacao) {
 
     })
     if(!response.ok) {
-      throw new Error(`Erro ${response.status}: falha ao editar favorito`)
+      const corpo = await response.json().catch(() => ({}))
+      const erro = new Error(corpo.erro ?? `Erro ${response.status}: falha ao editar favorito`)
+      erro.status = response.status
+      throw erro
     }
     return response.json()
   } catch (e) {

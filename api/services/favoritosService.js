@@ -1,23 +1,23 @@
 const store = require('../data/favoritosStore');
-const livrosService = require('./livrosService');
+const jogosService = require('./jogosService');
 
 function listar() {
-  // Join manual: embute os dados do livro em cada favorito
+  // Join manual: embute os dados do jogo em cada favorito
   return store.getAll().map((fav) => ({
     ...fav,
-    livro: livrosService.buscarPorId(fav.livroId),
+    jogo: jogosService.buscarPorId(fav.jogoId),
   }));
 }
 
-function criar(livroId, observacao) {
-  const livro = livrosService.buscarPorId(livroId);
-  if (!livro) return { erro: 'livroId invalido — livro nao encontrado', status: 400 };
+function criar(jogoId, observacao) {
+  const jogo = jogosService.buscarPorId(jogoId);
+  if (!jogo) return { erro: 'jogoId invalido — jogo nao encontrado', status: 400 };
 
-  if (store.findByLivroId(livroId)) {
-    return { erro: 'Este livro ja esta nos favoritos', status: 409 };
+  if (store.findByJogoId(jogoId)) {
+    return { erro: 'Este jogo ja esta nos favoritos', status: 409 };
   }
 
-  const favorito = store.create(livroId, observacao);
+  const favorito = store.create(jogoId, observacao);
   return { dados: favorito, status: 201 };
 }
 

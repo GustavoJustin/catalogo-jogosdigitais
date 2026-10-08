@@ -1,7 +1,7 @@
 {
-  "name": "pagina-virada-api",
+  "name": "catalogo-jogos-digitais-api",
   "version": "1.0.0",
-  "description": "API REST didatica para o app Pagina Virada",
+  "description": "API REST didatica para o app Catalogo de Jogos Digitais",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

@@ -6,7 +6,7 @@ export default function ItemFavorito({ item, cores, onRemover, onEditar }) {
   const [salvando, setSalvando] = useState(false);
   const [feedback, setFeedback] = useState(null);
 
-  const livro = item.livro;
+  const jogo = item.jogo;
 
   async function handleSalvar() {
     if (observacao === item.observacao) return;
@@ -16,7 +16,7 @@ export default function ItemFavorito({ item, cores, onRemover, onEditar }) {
       await onEditar(item.id, observacao)
       setFeedback({tipo: "sucesso", texto: "Salvo"})
     } catch (e) {
-      setFeedback({tipo: "Erro", texto: "Erro ao salvar"})
+      setFeedback({tipo: "Erro", texto: e.message || "Erro ao salvar"})
     } finally {
       setSalvando(false)
       setTimeout(() => setFeedback(null), 2500)
@@ -26,7 +26,7 @@ export default function ItemFavorito({ item, cores, onRemover, onEditar }) {
   function handleRemover() {
     Alert.alert(
       'Remover favorito',
-      `Deseja remover "${livro?.titulo}" dos favoritos?`,
+      `Deseja remover "${jogo?.titulo}" dos favoritos?`,
       [
         { text: 'Cancelar', style: 'cancel' },
         { text: 'Remover', style: 'destructive', onPress: () => onRemover(item.id) },
@@ -39,18 +39,18 @@ export default function ItemFavorito({ item, cores, onRemover, onEditar }) {
   return (
     <View style={[styles.card, { backgroundColor: cores.card, borderColor: cores.border }]}>
       <View style={styles.cabecalho}>
-        {livro?.capa ? (
-          <Image source={{ uri: livro.capa }} style={styles.capa} resizeMode="cover" />
+        {jogo?.capa ? (
+          <Image source={{ uri: jogo.capa }} style={styles.capa} resizeMode="cover" />
         ) : null}
-        <View style={styles.infoLivro}>
+        <View style={styles.infoJogo}>
           <Text style={[styles.titulo, { color: cores.text }]} numberOfLines={2}>
-            {livro?.titulo ?? 'Livro desconhecido'}
+            {jogo?.titulo ?? 'Jogo desconhecido'}
           </Text>
-          <Text style={[styles.autor, { color: cores.textSecondary }]} numberOfLines={1}>
-            {livro?.autor}
+          <Text style={[styles.empresa, { color: cores.textSecondary }]} numberOfLines={1}>
+            {jogo?.empresa}
           </Text>
           <Text style={[styles.preco, { color: cores.primary }]}>
-            R$ {livro?.preco?.toFixed(2)}
+            R$ {jogo?.preco?.toFixed(2)}
           </Text>
         </View>
       </View>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 6,
   },
-  infoLivro: {
+  infoJogo: {
     flex: 1,
     justifyContent: 'center',
     gap: 3,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     lineHeight: 19,
   },
-  autor: {
+  empresa: {
     fontSize: 12,
   },
   preco: {

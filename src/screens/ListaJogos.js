@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { useTema } from '../context/ThemeContext';
-import { buscarLivros } from '../services/api';
-import CardLivro from '../components/CardLivro';
+import { buscarJogos } from '../services/api';
+import CardJogo from '../components/CardJogo';
 
-export default function ListaLivros({ navigation }) {
+export default function ListaJogos({ navigation }) {
   const { cores } = useTema();
 
-  const [livros, setLivros] = useState([]);
+  const [jogos, setJogos] = useState([]);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState(null);
 
   const carregar = useCallback(async () => {
+    setCarregando(true);
     setErro(null)
     try {
-      const dados = await buscarLivros()
-      setLivros(dados)
+      const dados = await buscarJogos()
+      setJogos(dados)
     } catch (e) {
       setErro(e.message)
     } finally {
@@ -31,7 +32,7 @@ export default function ListaLivros({ navigation }) {
     return (
       <View style={[styles.centrado, { backgroundColor: cores.background }]}>
         <ActivityIndicator size="large" color={cores.primary} />
-        <Text style={[styles.mensagem, { color: cores.textSecondary }]}>Carregando livros...</Text>
+        <Text style={[styles.mensagem, { color: cores.textSecondary }]}>Carregando jogos...</Text>
       </View>
     );
   }
@@ -53,20 +54,20 @@ export default function ListaLivros({ navigation }) {
   return (
     <View style={[styles.container, { backgroundColor: cores.background }]}>
       <FlatList
-        data={livros}
+        data={jogos}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
-          <CardLivro
-            livro={item}
+          <CardJogo
+            jogo={item}
             cores={cores}
-            onPress={(id) => navigation.navigate('DetalheLivro', { livroId: id })}
+            onPress={(id) => navigation.navigate('DetalheJogo', { jogoId: id })}
           />
         )}
         contentContainerStyle={styles.lista}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <Text style={[styles.mensagem, { color: cores.textSecondary, marginTop: 48 }]}>
-            Nenhum livro carregado ainda.{'\n'}Implemente buscarLivros() em services/api.js
+            Nenhum jogo encontrado.
           </Text>
         }
       />
@@ -84,8 +85,10 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   lista: {
-    padding: 16,
-    gap: 12,
+    paddingHorizontal: 8,
+    paddingTop: 8,
+    paddingBottom: 12,
+    gap: 6,
   },
   mensagem: {
     fontSize: 15,

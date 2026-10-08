@@ -12,12 +12,12 @@ function findById(id) {
   return favoritos.find((f) => f.id === id) ?? null;
 }
 
-function findByLivroId(livroId) {
-  return favoritos.find((f) => f.livroId === livroId) ?? null;
+function findByJogoId(jogoId) {
+  return favoritos.find((f) => f.jogoId === jogoId) ?? null;
 }
 
-function create(livroId, observacao) {
-  const favorito = { id: nextId++, livroId, observacao };
+function create(jogoId, observacao) {
+  const favorito = { id: nextId++, jogoId, observacao };
   favoritos.push(favorito);
   return favorito;
 }
@@ -36,4 +36,4 @@ function remove(id) {
   return true;
 }
 
-module.exports = { getAll, findById, findByLivroId, create, update, remove };
+module.exports = { getAll, findById, findByJogoId, create, update, remove };
