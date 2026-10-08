@@ -133,7 +133,9 @@ export default function DetalheJogo({ route }) {
           <View style={[styles.divisor, { backgroundColor: cores.border }]} />
           <View style={styles.linhaPreco}>
             <Text style={[styles.labelPreco, { color: cores.textSecondary }]}>PREÇO OFICIAL</Text>
-            <Text style={styles.preco}>R$ {preco}</Text>
+            <Text style={[styles.preco, { color: modoEscuro ? '#42D9F5' : '#087F95' }]}>
+              R$ {preco}
+            </Text>
           </View>
         </View>
 
@@ -190,7 +192,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.28,
+    shadowOpacity: 0.18,
     shadowRadius: 10,
     elevation: 6,
   },
@@ -208,7 +210,6 @@ const styles = StyleSheet.create({
   linhaPreco: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   labelPreco: { fontSize: 9, letterSpacing: 0.8, fontWeight: '600' },
   preco: {
-    color: '#42D9F5',
     fontSize: 20,
     fontWeight: '900',
     textShadowColor: 'rgba(34, 211, 238, 0.35)',
