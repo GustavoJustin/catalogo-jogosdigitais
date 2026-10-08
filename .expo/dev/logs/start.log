@@ -253,3 +253,7 @@
 {"_e":"metro:bundling:progress","_t":1791483128664,"id":"2","progress":0.999,"total":976,"current":975}
 {"_e":"metro:bundling:progress","_t":1791483128684,"id":"2","progress":0.999,"total":976,"current":976}
 {"_e":"metro:bundling:done","_t":1791483128972,"id":"2","total":976,"ms":17396.5478}
+{"_e":"metro:bundling:started","_t":1791485454930,"id":"3","platform":"android","environment":null,"entry":"index.js"}
+{"_e":"metro:bundling:progress","_t":1791485454930,"id":"3","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1791485455012,"id":"3","total":1,"ms":81.4222}
+{"_e":"metro:client_log","_t":1791485592211,"level":"error","data":["buscarJogos:","fetch failed: java.net.ConnectException: Failed to connect to /10.0.2.2:3000"]}

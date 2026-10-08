@@ -5,7 +5,7 @@ import { buscarJogoPorId, adicionarFavorito } from '../services/api';
 
 export default function DetalheJogo({ route }) {
   const { jogoId } = route.params;
-  const { cores } = useTema();
+  const { cores, modoEscuro } = useTema();
 
   const [jogo, setJogo] = useState(null);
   const [carregando, setCarregando] = useState(false);
@@ -86,6 +86,8 @@ export default function DetalheJogo({ route }) {
   }
 
   const corFeedback = feedback?.tipo === 'sucesso' ? cores.success : cores.error;
+  const corBotao = jaFavoritado || adicionando ? cores.border : cores.primary;
+  const corTextoBotao = jaFavoritado || adicionando ? cores.textSecondary : cores.primaryText;
   const preco = jogo.preco.toLocaleString('pt-BR', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -93,44 +95,73 @@ export default function DetalheJogo({ route }) {
 
   return (
     <ScrollView
-      style={styles.tela}
+      style={[styles.tela, { backgroundColor: cores.background }]}
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
     >
-      <View style={styles.hero}>
+      <View style={[styles.hero, { backgroundColor: cores.card }]}>
         <Image source={{ uri: jogo.capa }} style={styles.capa} resizeMode="cover" />
-        <View style={styles.sombraHero} />
+        <View
+          style={[
+            styles.sombraHero,
+            { backgroundColor: modoEscuro ? 'rgba(8, 12, 22, 0.24)' : 'rgba(255, 255, 255, 0.08)' },
+          ]}
+        />
       </View>
 
       <View style={styles.conteudo}>
-        <View style={styles.cartaoJogo}>
+        <View
+          style={[
+            styles.cartaoJogo,
+            { backgroundColor: cores.card, borderColor: cores.border },
+          ]}
+        >
           <View style={styles.linhaMeta}>
-            <Text style={styles.meta}>{jogo.empresa} · {jogo.genero}</Text>
+            <Text
+              style={[
+                styles.meta,
+                {
+                  color: modoEscuro ? '#D0BCFF' : '#5E438F',
+                  backgroundColor: modoEscuro ? '#332653' : '#EEE7FA',
+                },
+              ]}
+            >
+              {jogo.empresa} · {jogo.genero}
+            </Text>
           </View>
-          <Text style={styles.titulo}>{jogo.titulo}</Text>
-          <View style={styles.divisor} />
+          <Text style={[styles.titulo, { color: cores.text }]}>{jogo.titulo}</Text>
+          <View style={[styles.divisor, { backgroundColor: cores.border }]} />
           <View style={styles.linhaPreco}>
-            <Text style={styles.labelPreco}>PREÇO OFICIAL</Text>
+            <Text style={[styles.labelPreco, { color: cores.textSecondary }]}>PREÇO OFICIAL</Text>
             <Text style={styles.preco}>R$ {preco}</Text>
           </View>
         </View>
 
-        <View style={styles.cartaoDescricao}>
-          <Text style={styles.labelSinopse}>SOBRE O JOGO</Text>
-          <Text style={styles.descricao}>{jogo.descricao}</Text>
+        <View
+          style={[
+            styles.cartaoDescricao,
+            { backgroundColor: cores.card, borderColor: cores.border },
+          ]}
+        >
+          <Text style={[styles.labelSinopse, { color: cores.text }]}>SOBRE O JOGO</Text>
+          <Text style={[styles.descricao, { color: cores.textSecondary }]}>{jogo.descricao}</Text>
         </View>
 
         <TouchableOpacity
           style={[
             styles.botao,
-            { backgroundColor: jaFavoritado || adicionando ? '#475569' : '#7C4DFF' },
+            {
+              backgroundColor: corBotao,
+              shadowColor: modoEscuro ? '#26C6DA' : cores.primary,
+              shadowOpacity: modoEscuro ? 0.24 : 0.16,
+            },
           ]}
           onPress={handleAdicionarFavorito}
           disabled={adicionando || jaFavoritado}
           activeOpacity={0.8}
         >
-          <Text style={styles.iconeCoracao}>♥</Text>
-          <Text style={styles.textoBotao}>
+          <Text style={[styles.iconeCoracao, { color: corTextoBotao }]}>♥</Text>
+          <Text style={[styles.textoBotao, { color: corTextoBotao }]}>
             {adicionando ? 'Adicionando...' : jaFavoritado ? 'Já nos Favoritos' : 'Adicionar aos Favoritos'}
           </Text>
         </TouchableOpacity>
@@ -145,21 +176,18 @@ export default function DetalheJogo({ route }) {
 
 const styles = StyleSheet.create({
   centrado: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24 },
-  tela: { flex: 1, backgroundColor: '#0B0D14' },
+  tela: { flex: 1 },
   container: { paddingBottom: 28 },
-  hero: { height: 290, backgroundColor: '#111827' },
+  hero: { height: 290 },
   capa: { width: '100%', height: '100%' },
   sombraHero: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(8, 12, 22, 0.24)',
   },
   conteudo: { paddingHorizontal: 16, gap: 12, marginTop: -34 },
   cartaoJogo: {
     padding: 12,
     borderRadius: 14,
-    backgroundColor: '#171923',
     borderWidth: 1,
-    borderColor: '#242735',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.28,
@@ -168,8 +196,6 @@ const styles = StyleSheet.create({
   },
   linhaMeta: { flexDirection: 'row', alignItems: 'center', marginBottom: 7 },
   meta: {
-    color: '#D0BCFF',
-    backgroundColor: '#332653',
     borderRadius: 6,
     overflow: 'hidden',
     paddingHorizontal: 8,
@@ -177,10 +203,10 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '600',
   },
-  titulo: { color: '#F8FAFC', fontSize: 18, fontWeight: '800', lineHeight: 22 },
-  divisor: { height: 1, backgroundColor: '#292C38', marginTop: 10, marginBottom: 8 },
+  titulo: { fontSize: 18, fontWeight: '800', lineHeight: 22 },
+  divisor: { height: 1, marginTop: 10, marginBottom: 8 },
   linhaPreco: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  labelPreco: { color: '#8B8E9B', fontSize: 9, letterSpacing: 0.8, fontWeight: '600' },
+  labelPreco: { fontSize: 9, letterSpacing: 0.8, fontWeight: '600' },
   preco: {
     color: '#42D9F5',
     fontSize: 20,
@@ -192,13 +218,11 @@ const styles = StyleSheet.create({
   cartaoDescricao: {
     padding: 12,
     borderRadius: 14,
-    backgroundColor: '#171923',
     borderWidth: 1,
-    borderColor: '#242735',
     gap: 7,
   },
-  labelSinopse: { color: '#F8FAFC', fontSize: 11, fontWeight: '800' },
-  descricao: { color: '#C0C2CC', fontSize: 11, lineHeight: 16 },
+  labelSinopse: { fontSize: 11, fontWeight: '800' },
+  descricao: { fontSize: 11, lineHeight: 16 },
   botao: {
     minHeight: 46,
     marginTop: 1,
@@ -207,14 +231,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     gap: 7,
-    shadowColor: '#26C6DA',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.24,
     shadowRadius: 8,
     elevation: 5,
   },
-  iconeCoracao: { color: '#FFFFFF', fontSize: 15 },
-  textoBotao: { color: '#FFFFFF', fontWeight: '800', fontSize: 12 },
+  iconeCoracao: { fontSize: 15 },
+  textoBotao: { fontWeight: '800', fontSize: 12 },
   feedback: { textAlign: 'center', fontSize: 14, fontWeight: '600' },
   texto: { fontSize: 15, textAlign: 'center' },
 });
